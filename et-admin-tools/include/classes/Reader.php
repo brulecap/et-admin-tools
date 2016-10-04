@@ -1,9 +1,9 @@
 <?php
-/*
+/**
  * Reader interface allowing various implementations of the file(stream) reader
  *
  * @author Bruce LeCaptain <brulecap@europeantableware.com>
- * 
+ *
  */
 interface Reader {
 

@@ -1,7 +1,7 @@
 <?php
-/*
+/**
  * Searches emails in specified account, grabs the attachment and processes the file.
- * 
+ *
  * @author Bruce LeCaptain <brulecap@europeantableware.com>
  *
  * @todo Not sure what to do with this "class". Seems to be a conglomoration of disparate
@@ -17,12 +17,12 @@ class StockPositionFile {
   private $database;
   // Header values - These are the values in the "header" row of the data file
   private $column_array_template;
-  
+
   private $raw_attachment = array('attachment'=>'',
                                   'encoding'=>'',
                                   'type'=>'');
 
-  /*
+  /**
    * StockPositionFile constructor
    *
    * Finds and processes email attachments
@@ -35,7 +35,7 @@ class StockPositionFile {
     $this->subject = $subject_line;
   }
 
-  /*
+  /**
    * Processes attachment
    *
    * Reads emails, find emails of interest, and grabs attachment.
@@ -82,9 +82,9 @@ class StockPositionFile {
     $this->sendLog('', 'Stock Position File Processed', 'Stock Position File Processed. See attached log file.');
   }
 
-  /*
+  /**
    * Updates database
-   * 
+   *
    * Gets database connection and iterates through all of the rows in the spreadsheet,
    * updating the database depending on values in spreadsheet.
    *
@@ -114,7 +114,7 @@ class StockPositionFile {
             $this->logger->output('Updating sku ' . $sku . ' and marking it ' . ($quantity>=10?'in stock.':'out of stock.'), BBL\Classes\LogLevel::DEBUG);
             /*
              * If the quantity in the spreadsheet>10, set manufacturer_out_of_stock to 0, 1 otherwise.
-             * 
+             *
              * Note: I am not checking if the product is in the database.
              */
             if (!$this->database->executeStatement($stmt, array("si",($quantity>=10?0:1), $sku))) {
@@ -131,7 +131,7 @@ class StockPositionFile {
     return $result;
   }
 
-  /*
+  /**
    * Find email containing subject line.
    *
    */
@@ -158,7 +158,7 @@ class StockPositionFile {
     return $result;
   }
 
-  /*
+  /**
    * Creates file reader
    *
    * Creates file reader based on file type. Each reader should implement the
@@ -184,15 +184,15 @@ class StockPositionFile {
     return $result;
   }
 
-  /*
+  /**
    * Sends the log file as an attachment to an email
-   * 
+   *
    * @param string $to email address
    * @param string $subject email subject
    * @param string $body body of email
    * @param bool $purge optional parameter where if true emails will be deleted if they are older than $age
    * @param string $age optional paramter specifying emails older $age than to be deleted.
-   * 
+   *
    */
   private function sendLog($to, $subject, $body, $purge=true, $age='-30 days') {
     if ($purge) {
@@ -208,12 +208,12 @@ class StockPositionFile {
      */
     $smtp_server = new SMTPSender(BBL\Classes\Config\SMTPConfig::SMTPHOST,
                                   BBL\Classes\Config\SMTPConfig::SMTPPORT,
-                                  BBL\Classes\Config\SMTPConfig::SMTPFQDN, 
+                                  BBL\Classes\Config\SMTPConfig::SMTPFQDN,
                                   BBL\Classes\Config\SMTPConfig::SMTPUSER,
                                   BBL\Classes\Config\SMTPConfig::SMTPPASS);
     $attachment['log_record'] = $this->logger->getLogRecord();
     $attachment['log_name'] = str_replace(' ', '', $this->subject) . '.txt';
     $attachment['encoding'] = '8bit';
     $smtp_server->send($to, $subject, $body, $attachment);
-  }  
+  }
 }

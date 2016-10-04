@@ -1,7 +1,7 @@
 <?php
 /**
  * @package BBL\Classes
- * 
+ *
  * @uses Mysqli
  * @uses Logger
  * @uses LogLevel
@@ -13,14 +13,14 @@
 namespace BBL\Classes;
 use Mysqli;
 use mysqli_stmt;
-/*
+/**
  * Get database connection.
  */
 function get_db() {
   return MySQLIDataBaseConnection::getInstance();;
 }
 
-/*
+/**
  * Basic implementation of the mysqli class functionality.
  *
  * @todo Add more functionality and add database stub to handle occurences where
@@ -37,7 +37,7 @@ class MySQLIDataBaseConnection {
   private $db_name;
   private static $instance = NULL;
 
-  /*
+  /**
    * MySQLIDataBaseConnection constructor
    *
    * Set logger, connect to database server
@@ -57,16 +57,16 @@ class MySQLIDataBaseConnection {
     $this->connect();
   }
 
-  /*
+  /**
    * MySQLIDataBaseConnection destructor
-   * 
+   *
    * Close connection
    */
   function __destruct() {
     @$this->mysqli_db->close();
   }
 
-  /*
+  /**
    * Get an instance of MySQLIDataBaseConnection.
    */
   public static function getInstance() {
@@ -79,7 +79,7 @@ class MySQLIDataBaseConnection {
     return self::$instance;
   }
 
-  /*
+  /**
    * Connects to the database
    *
    */
@@ -93,8 +93,8 @@ class MySQLIDataBaseConnection {
       $this->mysqli_db = false;
     }
   }
-  
-  /*
+
+  /**
    * Check if we are connected to database
    *
    * @return bool true if connected or false otherwise
@@ -105,7 +105,7 @@ class MySQLIDataBaseConnection {
     return $result;
   }
 
-  /*
+  /**
    * Prepare an SQL statement for execution
    *
    * @param string $statement sql statement to "prepare"
@@ -122,7 +122,7 @@ class MySQLIDataBaseConnection {
     return $stmt;
   }
 
-  /*
+  /**
    * Excutes prepared statement
    *
    * Uses call_usr_func_array to allow for an indeterminate number
@@ -169,9 +169,9 @@ class MySQLIDataBaseConnection {
     return $result;
   }
 
-  /*
+  /**
    * Perform a simple sql query.
-   * 
+   *
    * Note: This function is open for sql injection.
    *
    * @param string $query sql statement to execute.
@@ -186,22 +186,22 @@ class MySQLIDataBaseConnection {
     return $result;
   }
 
-  /*
+  /**
    * Get number of rows returned from mysql query
-   * 
+   *
    * @param mysqli_result $result_set
    */
   public function numberResults(mysqli_result $result_set) {
     return $result_set->num_rows;
   }
 
-  /*
+  /**
    * Fetches response from mysql query
-   * 
+   *
    * Fetches response from mysql query as an object
    *
    * @param mysqli_result $execution_result
-   * 
+   *
    * @return object with string properties that corresponds to the fetched row or NULL if there are no more rows in resultset
    */
   public function fetchObject(mysqli_result $execution_result) {
@@ -213,7 +213,7 @@ class MySQLIDataBaseConnection {
     return $result;
   }
 
-  /*
+  /**
    * Gets the number of rows affected by the previous MySQL operation
    *
    * @return int number of rows
@@ -222,9 +222,9 @@ class MySQLIDataBaseConnection {
     return $this->mysqli_db->affected_rows;
   }
 
-  /*
+  /**
    * Close mysqli prepared statement
-   * 
+   *
    * @param mysqli_stmt $statement
    */
   public function closeStatement(mysqli_stmt $statement) {
@@ -233,12 +233,12 @@ class MySQLIDataBaseConnection {
     }
   }
 
-  /*
+  /**
    * Get error list from last command executed
-   * 
+   *
    * Get error list from last command executed. If php version < 5.4, this method
    * emulates the error_list.
-   * 
+   *
    * @return array containing the errno, error, and sqlstate
    */
   public function getErrorList() {

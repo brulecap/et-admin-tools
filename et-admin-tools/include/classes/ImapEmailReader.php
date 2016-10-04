@@ -1,12 +1,12 @@
 <?php
-/*
+/**
  * Basic implementation of email client using imap
  *
  * This is open for modification. I only added some basic imap
  * functionality.
  *
  * @author Bruce LeCaptain <brulecap@europeantableware.com>
- * 
+ *
  * @todo Add more imap functionality as needed.
  *
  */
@@ -19,7 +19,7 @@ class ImapEmailReader {
   private $inbox;
   private $processed_folder;
   private $error_folder;
-  
+
   // email login credentials
   private $server;
   private $port;
@@ -32,7 +32,7 @@ class ImapEmailReader {
 
   private $logger;
 
-  /*
+  /**
    * ImapEmailReader constructor
    *
    * Set logger, connect to email server using imap
@@ -55,17 +55,17 @@ class ImapEmailReader {
     $this->error_folder = $this->inbox . '.Error';
     $this->mailbox_server = '{'.$this->server.':'.$this->port.($this->service!==''?'/'.$this->service:'').$this->optional_flags.'}';
     $this->connect();
-    
+
   }
 
-  /*
+  /**
    * Close email server imap connection.
    */
   function __destruct() {
     $this->close();
   }
 
-  /*
+  /**
    * Close email server connection
    */
   function close() {
@@ -74,7 +74,7 @@ class ImapEmailReader {
     }
   }
 
-  /*
+  /**
    * Open the server connection.
    *
    * If service is not specified imap_open defaults to the impa service.
@@ -91,7 +91,7 @@ class ImapEmailReader {
     }
   }
 
-  /*
+  /**
    * Move a specific message to processed folder
    *
    * @param int $msg_index is imap message index
@@ -101,7 +101,7 @@ class ImapEmailReader {
     $this->move($msg_index, $this->error_folder);
   }
 
-  /*
+  /**
    * Move a specific message to error folder
    *
    * @param int $msg_index is imap message index
@@ -111,7 +111,7 @@ class ImapEmailReader {
     $this->move($msg_index, $this->processed_folder);
   }
 
-  /*
+  /**
    * Move a specific message to a new folder
    *
    * The pop3 service does not support folders. As a result, this method
@@ -133,7 +133,7 @@ class ImapEmailReader {
     imap_expunge($this->conn);
   }
 
-  /*
+  /**
    * Decodes strings based on encoding
    *
    * @param $encoded_string is string to be decoded
@@ -167,7 +167,7 @@ class ImapEmailReader {
     return $result;
   }
 
-  /*
+  /**
    * Checks message for an attachment.
    *
    * I am using ifsubtype and ifdisposition and disposition === 'ATTACHMENT'
@@ -191,7 +191,7 @@ class ImapEmailReader {
     return $result;
   }
 
-  /*
+  /**
    * Gets a message attachment.
    *
    * @param int $index is the message number returned by imap
@@ -226,7 +226,7 @@ class ImapEmailReader {
     return $result;
   }
 
-  /*
+  /**
    * Search subject of email
    *
    * This is an alternative search method for searching email subject and should
@@ -250,7 +250,7 @@ class ImapEmailReader {
     return $result;
   }
 
-  /*
+  /**
    * Searches email.
    *
    * Uses imap_search function to search emails. Please note: imap_search
@@ -267,7 +267,7 @@ class ImapEmailReader {
     $imap_obj = imap_check($this->conn);
   }
 
-  /*
+  /**
    * Gets the number of messages in the mailbox.
    *
    * @return int number of messages in the mailbox
@@ -276,7 +276,7 @@ class ImapEmailReader {
     return imap_num_msg($this->conn);
   }
 
-  /*
+  /**
    * Change to a folder.
    *
    * @param string $folder
@@ -290,7 +290,7 @@ class ImapEmailReader {
     }
   }
 
-  /*
+  /**
    * List all folders.
    *
    * The imap_list function returns all of the folders prefixed
@@ -303,7 +303,7 @@ class ImapEmailReader {
     return imap_list($this->conn, $this->mailbox_server, "*");
   }
 
-  /*
+  /**
    * Get current working folder.
    *
    * The imap_check function returns an object with information about the current mailbox
@@ -319,7 +319,7 @@ class ImapEmailReader {
     return $result;
   }
 
-  /*
+  /**
    * Mark message for deletion
    *
    * @param int $message_index
@@ -329,7 +329,7 @@ class ImapEmailReader {
     imap_delete($this->conn, $message_index);
   }
 
-  /*
+  /**
    * Deletes all emails marked for deletion
    *
    * imap_expunge only works within the current working
@@ -341,7 +341,7 @@ class ImapEmailReader {
     imap_expunge($this->conn);
   }
 
-  /*
+  /**
    * Deletes all email older than date in all folders
    *
    * @parm string $date of the form j-F-Y
@@ -365,12 +365,12 @@ class ImapEmailReader {
     }
     $this->changeFolder($original_folder);
   }
-  
-  /*
+
+  /**
    * Unmarks a message marked for deletion.
    *
    * @parm int $message_index
-   * 
+   *
    * @return bool true on success, false on failure
    *
    */
@@ -378,13 +378,13 @@ class ImapEmailReader {
     return imap_undelete($this->conn, $message_index);
   }
 
-  /*
+  /**
    * Gets the message number.
    *
    * @parm int $message_index
-   * 
+   *
    * @return mixed int message index or false on failure
-   * 
+   *
    * Checking return value requires use of the "identical" operator === as a message index
    * may be 0.
    *
@@ -396,11 +396,11 @@ class ImapEmailReader {
     return $result;
   }
 
-  /*
+  /**
    * Gets the message id.
    *
    * @parm int $message_index
-   * 
+   *
    * @return mixed string containing the  message id or false on failure
    *
    */

@@ -1,20 +1,20 @@
 <?php
-/*
+/**
  * Script to grab email message attachments and process them.
- * 
+ *
  * We receive an email with an xls file attachment from one of our suppliers. This
  * file has their current product inventory. This script will grab the file,
  * move the email to a processed folder and then update our system with the current
  * inventory. Currently this is configured for a specific stock position file we receive from
  * one of our suppliers but it could easily be expanded to handle mulitple messages from
  * any of our suppliers.
- * 
+ *
  * Currently I have this running daily as a cron job.
- * 
+ *
  * @author Bruce LeCaptain <brulecap@europeantableware.com>
- * 
+ *
  * Command line options:
- *   --mode 
+ *   --mode
  *     Recognized value is silent(--mode="silent"). If --mode="silent", logging will go to file. If some other value
  *     is supplied (or --mode is not a command line option) than logging will go to STDOUT.
  *   --db
@@ -24,7 +24,7 @@
  *     Recognized value is true(--debug="true"). If --debug="true", then log will include debug statements. If some other value
  *     is supplied (or --debug is not a command line option) than log will include all log entries with the exception of debug
  *     statements. This is also configurable via the Logger setLogLevel method.
- * 
+ *
  */
 
   // Set default time zone
@@ -58,7 +58,7 @@
   // Files for SMTP connection
   require_once CLASS_PATH . 'SMTPSender.php';
   require_once CONFIG_CLASS_PATH . 'SMTPConfig.php';
-  // Files required for database connection 
+  // Files required for database connection
   require_once CLASS_PATH . 'MySQLIDataBaseConnection.php';
   $db_options = getopt("",array("db:"));
   if (isset($db_options['db']) && ($db_options['db'] === 'ops')) {

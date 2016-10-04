@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Simple SMTP mail sender class
  *
  * The way I am reading the socket may block for an extended period
@@ -21,9 +21,9 @@ class SMTPSender {
 	private $authorized;
 	private $conn;
 
-  /*
+  /**
    * SMTPSender constructor
-   * 
+   *
    * @param string $server SMTP server hostname
    * @param int $port SMTP server port number
    * @param string $helo_fqdn fully qualified domain name of client connecting to
@@ -44,16 +44,16 @@ class SMTPSender {
 		$this->socket_timeout = $socket_timeout;
 	}
 
-  /*
+  /**
    * SMTPSender destructor
-   * 
+   *
    * Close email server smtp connection.
    */
 	function __destruct() {
 		$this->close();
 	}
 
-  /*
+  /**
    * Close email server smtp connection.
    */
 	private function close() {
@@ -61,15 +61,15 @@ class SMTPSender {
 		fclose($this->conn);
 	}
 
-  /*
+  /**
    * Verify response returned for an smtp command
-   * 
+   *
    * Read smtp socket and verify response is appropriate
-   * 
+   *
    * @param string $command smtp command to verify
    * @param int $size size of buffer
    * @param array $return_code array of integers, each integer a valid return code
-   * 
+   *
    * @return bool true if valid, false otherwise
    */
 	private function verifySMTPCommand($command, $size, $return_code=array(0)) {
@@ -86,7 +86,7 @@ class SMTPSender {
 		return $result;
 	}
 
-  /*
+  /**
    * Connect to email server
    */
 	private function connect() {
@@ -108,9 +108,9 @@ class SMTPSender {
 		return $this->conn;
 	}
 
-  /*
+  /**
    * Login to smtp server
-   * 
+   *
    * Send authlogin, user and password commands to smtp server
    */
 	private function authorize() {
@@ -133,7 +133,7 @@ class SMTPSender {
 		return $this->authorized;
 	}
 
-	/*
+	/**
 	 * Create and send SMTP email
 	 *
 	 * @param string $to
@@ -185,15 +185,15 @@ class SMTPSender {
 		}
 	}
 
-  /*
+  /**
    * Check response from SMTP server
-   * 
+   *
    * Checks response against expected response
-   * 
+   *
    * @param string $command smtp command to verify
    * @param int $size size of buffer
    * @param array $return_code array of integers, each integer a valid return code
-   * 
+   *
    * @return bool true if valid, false otherwise
    */
 	private function goodSMTPReturn($command, $return_array, $expected_codes) {

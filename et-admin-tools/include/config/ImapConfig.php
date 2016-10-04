@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * @package BBL\Classes\Config
  *
  * @author Bruce LeCaptain <brulecap@europeantableware.com>
@@ -7,9 +7,9 @@
  */
 namespace BBL\Classes\Config;
 
-/*
+/**
  * ImapConfig contains the login parameters for the incoming IMAP server
- * 
+ *
  * See php {@link PHP_MANUAL#imap_open} for details.
  */
 class ImapConfig {

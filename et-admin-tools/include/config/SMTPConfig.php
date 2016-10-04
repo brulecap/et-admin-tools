@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * @package BBL\Classes\Config
  *
  * @author Bruce LeCaptain <brulecap@europeantableware.com>
@@ -7,7 +7,7 @@
  */
 namespace BBL\Classes\Config;
 
-/*
+/**
  * SMTPConfig contains the login parameters for the outgoing SMTP server
  */
 class SMTPConfig {

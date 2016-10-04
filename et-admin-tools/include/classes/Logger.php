@@ -1,12 +1,12 @@
 <?php
 /**
  * @package BBL\Classes
- * 
+ *
  * @author Bruce LeCaptain <brulecap@europeantableware.com>
  *
  */
 namespace BBL\Classes;
-/*
+/**
  * Create logger
  */
 function get_logger() {
@@ -23,8 +23,8 @@ function get_logger() {
   return $log;
 }
 
-/*
- * LogLevel defines the constants of possible logging levels. 
+/**
+ * LogLevel defines the constants of possible logging levels.
  */
 class LogLevel {
   const EMERGENCY = 128;
@@ -40,12 +40,12 @@ class LogLevel {
    * to set the log level. Example: Calling the method setLogLevel on an instance of Logger
    * with parameter (BBL\Log\LogLevel::DEBUG ^ BBL\Log\LogLevel::LOGALL) would cause all subsequent
    * logging to include everything with the exlusion of debug level logs.
-   * 
+   *
    */
   const LOGALL    = 255;
 }
 
-/*
+/**
  * Logger interface allows various implementations of the logging method
  */
 interface Logger {
@@ -56,7 +56,7 @@ interface Logger {
 
 }
 
-/*
+/**
  * Logger to output to stdout
  */
 class STDOUTLogger implements Logger {
@@ -68,7 +68,7 @@ class STDOUTLogger implements Logger {
     $log_record = '';
   }
 
-  /*
+  /**
    * Get an instance of STDOUTLogger.
    */
   public static function getInstance() {
@@ -77,8 +77,10 @@ class STDOUTLogger implements Logger {
     }
     return self::$instance;
   }
-  /*
+  /**
    * Output log message to stdout.
+   *
+   * Output message to stdout and also append to a log record.
    *
    * @param string $log_message Message to be logged
    * @param int $log_level Indicates the level of the message
@@ -94,17 +96,29 @@ class STDOUTLogger implements Logger {
     }
   }
 
+  /**
+   *
+   *  Returns the contents of the log record
+   *
+   *  @return string log record contents.
+   */
   public function getLogRecord() {
     return $this->log_record;
   }
 
+  /**
+   *
+   *  Sets the log level
+   *
+   *  @param int $log_level
+   */
   public function setLogLevel($level_to_log) {
     $this->log_level = $level_to_log;
   }
 
 } //End STDOUTLogger
 
-/*
+/**
  * Logger to output to a file
  */
 class FileLogger implements Logger {
@@ -114,7 +128,7 @@ class FileLogger implements Logger {
   private $log_file_pointer = '';
   private static $instance = NULL;
 
-  /*
+  /**
    * FileLogger constructor.
    *
    * Sets default time zone and opens the log file.
@@ -129,7 +143,7 @@ class FileLogger implements Logger {
     $this->openLogFile();
   }
 
-  /*
+  /**
    * Get an instance of FileLogger.
    */
   public static function getInstance() {
@@ -139,7 +153,7 @@ class FileLogger implements Logger {
     return self::$instance;
   }
 
-  /*
+  /**
    * Opens log file. Requires script to have the permission to create the log file
    * directory(if necessary) and log file.
    */
@@ -155,7 +169,7 @@ class FileLogger implements Logger {
     }
   }
 
-  /*
+  /**
    * Output log message to file.
    *
    * @param string $log_message Message to be logged
@@ -168,6 +182,12 @@ class FileLogger implements Logger {
     }
   }
 
+  /**
+   *
+   *  Returns the contents of the log file as a string
+   *
+   *  @return string log file contents.
+   */
   public function getLogRecord() {
     $result = '';
     if ($fp = fopen($this->log_file_location.$this->log_file, 'rb')) {
@@ -179,6 +199,12 @@ class FileLogger implements Logger {
     return $result;
   }
 
+  /**
+   *
+   *  Sets the log level
+   *
+   *  @param int $log_level
+   */
   public function setLogLevel($level_to_log) {
     $this->log_level = $level_to_log;
   }
